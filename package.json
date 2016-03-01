@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/donald-s/noomatech#readme",
   "devDependencies": {
+    "del": "^2.2.0",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
     "gulp-inject": "^3.0.0",

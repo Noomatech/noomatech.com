@@ -4,6 +4,7 @@ wiredep = require('wiredep').stream,
 concat = require('gulp-concat'),
 server = require('gulp-webserver'),
 livereload = require('gulp-livereload'),
+del = require('del'),
 paths = {
   src: {
     styles: 'src/styles/**/*.scss',
@@ -11,13 +12,16 @@ paths = {
     scripts: 'src/scripts/**/*.js',
     html: 'src/index.html',
     bowerComponents: 'src/bower_components/**/*',
-    fonts: 'src/fonts/'
+    fonts: 'src/fonts/bootstrap/**/*',
+    images: 'src/images/**/*'
   },
   dist: {
     styles: 'dist/styles',
     scripts: 'dist/scripts',
+    fonts: 'dist/fonts/bootstrap',
     root: 'dist',
-    bowerComponents: 'dist/bower_components'
+    bowerComponents: 'dist/bower_components',
+    images: 'dist/images'
   }
 }
 
@@ -64,10 +68,27 @@ gulp.task('app:html', function() {
 
 gulp.task('app:fonts', function() {
   return gulp.src(paths.src.fonts)
-  .pipe(gulp.dest(paths.dist.root))
+  .pipe(gulp.dest(paths.dist.fonts))
 })
 
-gulp.task('build', ['bower_components', 'app:styles', 'app:scripts', 'app:html', 'app:fonts'])
+gulp.task('app:images', function() {
+  return gulp.src(paths.src.images)
+  .pipe(gulp.dest(paths.dist.images))
+})
+
+gulp.task('clean', function() {
+  return del(['dist/**/*'])
+})
+
+gulp.task('build', [
+  'clean', 
+  'bower_components', 
+  'app:styles', 
+  'app:scripts', 
+  'app:html', 
+  'app:images', 
+  'app:fonts'
+  ])
 
 gulp.task('deploy', ['build'], function() {
 
